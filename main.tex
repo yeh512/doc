@@ -6,6 +6,7 @@
 \usepackage{amsmath,amsthm,amssymb,amsfonts, 
 hyperref, color, graphicx,ulem}
 \usepackage{datetime}
+\usepackage{subcaption}
 \newcommand{\N}{\mathbb{N}}
 \newcommand{\Z}{\mathbb{Z}}
 \newcommand{\Q}{\mathbb{Q}}
@@ -52,13 +53,66 @@ IC:
 BC:
 \[k\frac{\partial T}{\partial z} = h(T_{\infty} - T) \]
 \includegraphics[]{fig1.png}
-
-\[\frac{T(z,t) - T_i}{T_i - T_{\infty}} = -1 + 2 \sum ^{\infty} _{n=1} \exp(-\beta_n^2 \frac{k_z t}{H^2}) \times \frac{sin \beta_n cos(\beta_nz/H)}{\beta_n + sin \beta_n cos \beta_n} \]
+\begin{equation} \label{T_FS}
+\frac{T(z,t) - T_i}{T_i - T_{\infty}} = -1 + 2 \sum ^{\infty} _{n=1} \exp(-\beta_n^2 \frac{k_z t}{H^2}) \times \frac{sin \beta_n cos(\beta_nz/H)}{\beta_n + sin \beta_n cos \beta_n} 
+\end{equation}
 Dimensionless stress distribution:
 \[\sigma = 2 \sum ^{\infty} _{n=1} exp ( -\frac{(2n+1)^2\pi^2}{4} \frac{k_z t}{H^2} \times \left(\frac{(-1)^n}{2n+1} cos [\frac{(2n+1)\pi}{2} \frac{z}{H}] - \frac{2}{(2n+1)^2 \pi}\right) \]
 where $k_z$ is the thermal diffusivity, $\beta_n$ are the roots of \[\beta_n tan \beta_n = Bi\]
 and Biot number $Bi = hH/k$.  
-For UO2 pellets with radius of 0.0042 m, $h = 4.187 \times 10^3 W/m^2K$ \cite{UO2_thermal_shock}, $k = 5 W/mK$,  $Bi = \frac{rh}{k} = 3.5$.
+%For UO2 pellets with radius of 0.0042 m, $h = 4.187 \times 10^3 W/m^2K$ \cite{UO2_thermal_shock}, $k = 5 W/mK$,  $Bi = \frac{rh}{k} = 3.5$.
+H = 1m, h = $10000 W/m^2C$, k = 5 W/mC, thus, Bi = 2000.
+
+
+\begin{center}
+\begin{tabular}{ |c|c||c|c||c|c|| } 
+ \hline
+ $\beta_1$ & 1.57001 & $\beta_4$ & 10.9901 & $\beta_7$ & 20.4101 \\ 
+ $\beta_2$ & 4.71003 & $\beta_5$ & 14.1301 & $\beta_8$ &  23.5502 \\ 
+ $\beta_3$ & 7.85006 & $\beta_6$ & 17.2701 & $\beta_9$ & 26.6902 \\ 
+ \hline
+\end{tabular}
+\end{center}
+
+\section*{Results}
+Fig. \ref{time_history} shows the temperature distribution from MOOSE at different periods of time after quenching in water bath.  
+\begin{figure}[h]
+\includegraphics[]{T_time_history.png}
+\caption{}
+\label{time_history}
+\end{figure}
+
+Fig. \ref{fig:T}(a) - (d) show the Temperature profiles calculated from MOOSE have been compared to Fourier series approximation (Eq. \ref{T_FS}) 
+\begin{figure}[h]
+    \centering
+    \begin{subfigure}[b]{0.4\textwidth}
+        \includegraphics[width=\textwidth]{t125.png}
+        \caption{t = 125 s}
+        \label{fig:t125}
+    \end{subfigure}
+    ~ %add desired spacing between images, e. g. ~, \quad, \qquad, \hfill etc. 
+      %(or a blank line to force the subfigure onto a new line)
+    \begin{subfigure}[b]{0.4\textwidth}
+        \includegraphics[width=\textwidth]{t500.png}
+        \caption{t = 500 s}
+        \label{fig:tiger}
+    \end{subfigure}
+    
+    ~ %add desired spacing between images, e. g. ~, \quad, \qquad, \hfill etc. 
+    %(or a blank line to force the subfigure onto a new line)
+    \begin{subfigure}[b]{0.4\textwidth}
+        \includegraphics[width=\textwidth]{t750.png}
+        \caption{t = 750 s}
+        \label{fig:t750}
+    \end{subfigure}
+        \begin{subfigure}[b]{0.4\textwidth}
+        \includegraphics[width=\textwidth]{t1000.png}
+        \caption{t = 1000}
+        \label{fig:t1000}
+    \end{subfigure}
+    \caption{Pictures of animals}\label{fig:T}
+\end{figure}
+
 
 \begin{thebibliography}{9}
 \bibitem{thermalShock_solid} 
