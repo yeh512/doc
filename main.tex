@@ -44,7 +44,7 @@ The \& symbol allows you to line up the ='s or anything else you want to line up
 %\author{Ju-Yuan Yeh}
 %\date{\today}
 \maketitle
-An infinite plate \cite{thermalShock_solid} of thickness 2L (Fig. \ref{1d}) is at a uniform temperature $T_i$ initially.  Cold shock to $T_{\infty}$ at the left and right surfaces.  \\
+\section{Geometry Schematic} 
 
 Governing equation: 
 \[\rho C_p \frac{\partial T}{\partial t} - k \nabla^2 T = 0 \]
@@ -52,90 +52,178 @@ IC:
 \[T(x,0) = T_i\]
 BC:
 \[k\frac{\partial T}{\partial x} = h(T_{\infty} - T) \]
-
+Thermal resistant:
+\[\frac{1}{h_{tot}} = \frac{d_{gap}}{k_{gap}} + \frac{d_{clad}}{k_{clad}} + \frac{1}{h_{coolant}}\]
 \begin{figure}[h]
 \centering
-\includegraphics[width=0.40 \textwidth]{1d.png}
-\caption{Heat transfer in 1 dimension -- a large plane wall }
+%\includegraphics[width=0.40 \textwidth]{1d.png}
+%\caption{Heat transfer in 1 dimension -- a large plane wall }
 \label{1d}
 \end{figure}
 
-\begin{equation} \label{T_FS}
-\frac{T(x,t) - T_i}{T_i - T_{\infty}} = -1 + 2 \sum ^{\infty} _{n=1} \exp(-\beta_n^2 \frac{k_z t}{L^2}) \times \frac{sin \beta_n cos(\beta_nx/L)}{\beta_n + sin \beta_n cos \beta_n} 
-\end{equation}
-Dimensionless stress distribution:
-\[\sigma = 2 \sum ^{\infty} _{n=1} exp ( -\frac{(2n+1)^2\pi^2}{4} \frac{k_x t}{L^2} \times \left(\frac{(-1)^n}{2n+1} cos [\frac{(2n+1)\pi}{2} \frac{x}{L}] - \frac{2}{(2n+1)^2 \pi}\right) \]
-where $k_x$ is the thermal diffusivity, $\beta_n$ are the roots of \[\beta_n tan \beta_n = Bi\]
-and Biot number $Bi = hL/k$.  
-%For UO2 pellets with radius of 0.0042 m, $h = 4.187 \times 10^3 W/m^2K$ \cite{UO2_thermal_shock}, $k = 5 W/mK$,  $Bi = \frac{rh}{k} = 3.5$.
-L = 1m, h = $10000 W/m^2C$, k = 5 W/mC, thus, Bi = 2000.
+\pagebreak
+% L = 1m, h = $10000 W/m^2C$, k = 5 W/mC, thus, Bi = 2000.
 
+\section{Results}
+\subsection{$H_2O$ in gap}
+\begin{itemize}
+\item Thermal Shock from 1100 K to 400 K
 
-\begin{center}
-\begin{tabular}{ |c|c||c|c||c|c|| } 
- \hline
- $\beta_1$ & 1.57001 & $\beta_4$ & 10.9901 & $\beta_7$ & 20.4101 \\ 
- $\beta_2$ & 4.71003 & $\beta_5$ & 14.1301 & $\beta_8$ &  23.5502 \\ 
- $\beta_3$ & 7.85006 & $\beta_6$ & 17.2701 & $\beta_9$ & 26.6902 \\ 
- \hline
-\end{tabular}
-\end{center}
-
-\section*{Results}
-Fig. \ref{time_history} shows the temperature distribution from MOOSE at different periods of time after quenching in a water bath.  
-\begin{figure}[h]
-   \centering
-   \includegraphics[width=0.80      \textwidth]{T_time_history.png}
-   \caption{Transient temperature profiles for a large plane wall.}
-\label{time_history}
-\end{figure}
-
-Fig. \ref{fig:T}(a) - (d) show the Temperature profiles calculated from MOOSE to Fourier series approximation (Eq. \ref{T_FS}).  Notice the curves overlap almost perfectly at shorter times but begin to separate at the longest time. Not able to get thermal equilibrium at $T_{\infty}$ that MOOSE cannot converge at $t \geq 1500$ s.  
+%------------------------------------
 \begin{figure}[h]
     \centering
     \begin{subfigure}[b]{0.4\textwidth}
-        \includegraphics[width=\textwidth]{t125.png}
-        \caption{t = 125 s}
+        \includegraphics[width=\textwidth]{thermalShock_H2O_T_vs_x.png}
+        \caption{}
         \label{fig:t125}
     \end{subfigure}
-    ~ %add desired spacing between images, e. g. ~, \quad, \qquad, \hfill etc. 
-      %(or a blank line to force the subfigure onto a new line)
+    ~ 
     \begin{subfigure}[b]{0.4\textwidth}
-        \includegraphics[width=\textwidth]{t500.png}
-        \caption{t = 500 s}
+        \includegraphics[width=\textwidth]{thermalShock_H2O_stress_vs_x.png}
+        \caption{}
         \label{fig:tiger}
     \end{subfigure}
-    
-    ~ %add desired spacing between images, e. g. ~, \quad, \qquad, \hfill etc. 
-    %(or a blank line to force the subfigure onto a new line)
+    ~ 
     \begin{subfigure}[b]{0.4\textwidth}
-        \includegraphics[width=\textwidth]{t750.png}
-        \caption{t = 750 s}
+        \includegraphics[width=\textwidth]{thermalShock_H2O_T_vs_t.png}
+        \caption{}
         \label{fig:t750}
     \end{subfigure}
         \begin{subfigure}[b]{0.4\textwidth}
-        \includegraphics[width=\textwidth]{t1000.png}
-        \caption{t = 1000}
+        \includegraphics[width=\textwidth]{thermalShock_H2O_stress_vs_t.png}
+        \caption{}
         \label{fig:t1000}
     \end{subfigure}
-    \caption{Comparison of Moose result to Fourier series approximation for 4 separate time steps.}\label{fig:T}
+%    \caption{Comparison of Moose result to Fourier series approximation for 4 separate time steps.}\label{fig:T}
 \end{figure}
+\pagebreak
+%------------------------------
+\item Cool from 1100 K to 400 K in 10 seconds \\
+%------------------------------------
+\begin{figure}[h]
+    \centering
+    \begin{subfigure}[b]{0.4\textwidth}
+        \includegraphics[width=\textwidth]{cool_10s_H2O_T_vs_x.png}
+        \caption{}
+        \label{fig:t125}
+    \end{subfigure}
+    ~ 
+    \begin{subfigure}[b]{0.4\textwidth}
+        \includegraphics[width=\textwidth]{cool_10s_H2O_stress_vs_x.png}
+        \caption{max stress at 11 sec}
+        \label{fig:tiger}
+    \end{subfigure}
+    ~ 
+    \begin{subfigure}[b]{0.4\textwidth}
+        \includegraphics[width=\textwidth]{cool_10s_H2O_T_vs_t.png}
+        \caption{}
+        \label{fig:t750}
+    \end{subfigure}
+        \begin{subfigure}[b]{0.4\textwidth}
+        \includegraphics[width=\textwidth]{cool_10s_H2O_stress_vs_t.png}
+        \caption{}
+        \label{fig:t1000}
+    \end{subfigure}
+%    \caption{Comparison of Moose result to Fourier series approximation for 4 separate time steps.}\label{fig:T}
+\end{figure}
+\pagebreak
+%------------------------------
+\item Cool from 1100 K to 400 K in 20 seconds
+%------------------------------------
+\begin{figure}[h]
+    \centering
 
+    \begin{subfigure}[b]{0.4\textwidth}
+        \includegraphics[width=\textwidth]{cool_20s_H2O_T_vs_t.png}
+        \caption{}
+        \label{fig:t750}
+    \end{subfigure}
+        \begin{subfigure}[b]{0.4\textwidth}
+        \includegraphics[width=\textwidth]{cool_20s_H2O_stress_vs_t.png}
+        \caption{}
+        \label{fig:t1000}
+    \end{subfigure}
+%    \caption{Comparison of Moose result to Fourier series approximation for 4 separate time steps.}\label{fig:T}
+\end{figure}
+%------------------------------
+\end{itemize}
+\pagebreak
 
-\begin{thebibliography}{9}
-\bibitem{thermalShock_solid} 
-T. J. Lu and N. A. Fleck, The thermal shock resistance of solid, Acta Mater., Vol. 46, No. 13, p. 4755 - 4768, 1998.
+\subsection{Helium in gap}
+\begin{itemize}
+\item Thermal shock from 1100 K to 400 K
+%------------------------------------
+\begin{figure}[h]
+    \centering
+    \begin{subfigure}[b]{0.4\textwidth}
+        \includegraphics[width=\textwidth]{thermalShock_He_T_vs_x.png}
+        \caption{}
+        \label{fig:t125}
+    \end{subfigure}
+    ~ 
+    \begin{subfigure}[b]{0.4\textwidth}
+        \includegraphics[width=\textwidth]{thermalShock_He_stress_vs_x.png}
+        \caption{}
+        \label{fig:tiger}
+    \end{subfigure}
+    ~ 
+    \begin{subfigure}[b]{0.4\textwidth}
+        \includegraphics[width=\textwidth]{thermalShock_He_T_vs_t.png}
+        \caption{}
+        \label{fig:t750}
+    \end{subfigure}
+        \begin{subfigure}[b]{0.4\textwidth}
+        \includegraphics[width=\textwidth]{thermalShock_He_stress_vs_t.png}
+        \caption{max at t = 2}
+        \label{fig:t1000}
+    \end{subfigure}
+%    \caption{Comparison of Moose result to Fourier series approximation for 4 separate time steps.}\label{fig:T}
+\end{figure}
+\pagebreak
+
+\subsection{Argon in gap}
+\item Thermal shock from 1100 K to 400 K
+%------------------------------------
+\begin{figure}[h]
+    \centering
+    \begin{subfigure}[b]{0.4\textwidth}
+        \includegraphics[width=\textwidth]{thermalShock_Ar_T_vs_x.png}
+        \caption{}
+        \label{fig:t125}
+    \end{subfigure}
+    ~ 
+    \begin{subfigure}[b]{0.4\textwidth}
+        \includegraphics[width=\textwidth]{thermalShock_Ar_stress_vs_x.png}
+        \caption{}
+        \label{fig:tiger}
+    \end{subfigure}
+    ~ 
+    \begin{subfigure}[b]{0.4\textwidth}
+        \includegraphics[width=\textwidth]{thermalShock_Ar_T_vs_t.png}
+        \caption{}
+        \label{fig:t750}
+    \end{subfigure}
+        \begin{subfigure}[b]{0.4\textwidth}
+        \includegraphics[width=\textwidth]{thermalShock_Ar_stress_vs_t.png}
+        \caption{max at t = 2}
+        \label{fig:t1000}
+    \end{subfigure}
+%    \caption{Comparison of Moose result to Fourier series approximation for 4 separate time steps.}\label{fig:T}
+\end{figure}
+\end{itemize}
+%\begin{thebibliography}{9}
+%\bibitem{thermalShock_solid} 
+%T. J. Lu and N. A. Fleck, The thermal shock resistance of solid, Acta Mater., Vol. 46, No. 13, p. 4755 - 4768, 1998.
  
-\bibitem{fracture_thermal_shock} 
-H. A. Bahr, H. Balke, M. Kuna and H. Liesk
-\textit{Fracture analysis of a single edge cracked strip under thermal shock}
-Theoretical and Applied Fracture Mechanics, 8(1987) 33-39.
+%\bibitem{fracture_thermal_shock} 
+%H. A. Bahr, H. Balke, M. Kuna and H. Liesk
+%\textit{Fracture analysis of a single edge cracked strip under thermal shock}
+%Theoretical and Applied Fracture Mechanics, 8(1987) 33-39.
  
-\bibitem{UO2_thermal_shock} 
-Masaomi Oguma
-\textit{Integrity degradation of UO2 pellets subjected to thermal shock}
-Jounal of Nuclear Materials 127 (1985) 67-76.
-\end{thebibliography}
-
+%\bibitem{UO2_thermal_shock} 
+%Masaomi Oguma
+%\textit{Integrity degradation of UO2 pellets subjected to thermal shock}
+%Jounal of Nuclear Materials 127 (1985) 67-76.
+%\end{thebibliography}
 
 \end{document}
