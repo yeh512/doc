@@ -7,6 +7,9 @@
 hyperref, color, graphicx,ulem}
 \usepackage{datetime}
 \usepackage{subcaption}
+\usepackage{tikz}
+\usepackage{circuitikz}
+\usetikzlibrary{shapes, arrows, shadows}
 \newcommand{\N}{\mathbb{N}}
 \newcommand{\Z}{\mathbb{Z}}
 \newcommand{\Q}{\mathbb{Q}}
@@ -44,16 +47,15 @@ The \& symbol allows you to line up the ='s or anything else you want to line up
 %\author{Ju-Yuan Yeh}
 %\date{\today}
 \maketitle
-\section{Geometry Schematic} 
-
+\section{Model}
 Governing equation: 
 \[\rho C_p \frac{\partial T}{\partial t} - k \nabla^2 T = 0 \]
 IC:
-\[T(x,0) = T_i\]
+\[T(r,0) = T_i\]
 BC:
-\[k\frac{\partial T}{\partial x} = h(T_{\infty} - T) \]
-Thermal resistant:
-\[\frac{1}{h_{tot}} = \frac{d_{gap}}{k_{gap}} + \frac{d_{clad}}{k_{clad}} + \frac{1}{h_{coolant}}\]
+\[k\frac{\partial T}{\partial r} \big | _{r = R} = h(T_{\infty} - T_{R}) \]
+
+\section{Geometry Schematic} 
 \begin{figure}[h]
 \centering
 %\includegraphics[width=0.40 \textwidth]{1d.png}
@@ -61,8 +63,71 @@ Thermal resistant:
 \label{1d}
 \end{figure}
 
+\begin{tikzpicture}
+\draw (0,0) --(3,0) -- (3,6.2) -- (0,6.2);
+\draw (4,0) -- (4, 6.2);
+\draw (9,0) -- (9,6.2);
+\draw (3.388,0.388) circle (0.388 cm);
+\draw (3.388,1.163) circle (0.388 cm);
+\draw (3.388,1.938) circle (0.388 cm);
+\draw (3.388,2.713) circle (0.388 cm);
+\draw (3.388,3.488) circle (0.388 cm);
+\draw (3.388,4.263) circle (0.388 cm);
+\draw (3.388,5.038) circle (0.388 cm);
+\draw (3.388,5.813) circle (0.388 cm);
+\node at (1,3) {fuel};
+\node at (1,2) {r = 4.2 mm};
+\node at (1,1) {$T_{i}$};
+\node at (3.5,7) {gap};
+\node at (3.5, 6.5) {d = 0.2 mm};
+\node at (7,3) {cladding};
+\node at (7,2) {d = 1 mm};
+\node at (11,3) {coolant};
+\node at (11,2) {$T_{\infty}$};
+\node at (12,1) {Instant shock or};
+\node at (12.4,0) {gradually cool down};
+\node at (3.5, -1) {optical fibers};
+\node at (3.5, -1.5) {d = 0.155 mm};
+\end{tikzpicture} \\
+\vspace{2 cm}
+
+\textbf{Thermal resistant:} \\
+
+\begin{circuitikz}
+\draw (0,0) circle (2 cm);
+\draw (2,0) to[R, o-o] (4,0);
+\draw (4,0) -- (5,0);
+\draw (5,0) to[R, o-o] (7,0);
+\draw (7,0) -- (8,0);
+\draw (8,0) to[R, o-o] (10,0);
+\node at (0,1) {fuel};
+\node at (3,1) {gap};
+\node at (6,1) {cladding};
+\node at (9,1) {coolant};
+\end{circuitikz}
+
+\[\frac{1}{h_{comb}} = \frac{d_{gap}}{k_{gap}} + \frac{d_{clad}}{k_{clad}} + \frac{1}{h_{coolant}}\]
+
+\begin{center}
+\begin{tabular}{ |c|c|c|c| } 
+ \hline
+  & $UO_2$ (fuel) & copper (cladding) & coolant \\ 
+   \hline
+ k/h & k = 5 W/mK & k = 385 W/mK & h =  $10^5 W/m^2K$ \\ 
+ \hline
+\end{tabular}
+\end{center}
+
+\begin{center}
+\begin{tabular}{ |c|c|c|c| } 
+ \hline
+Media in gap  & argon & helium & water \\ 
+   \hline
+ $h_{comb} (W/m^2K)$ & 80 & 700 & 2800 \\ 
+ \hline
+\end{tabular}
+\end{center}
 \pagebreak
-% L = 1m, h = $10000 W/m^2C$, k = 5 W/mC, thus, Bi = 2000.
 
 \section{Results}
 \subsection{$H_2O$ in gap}
@@ -124,7 +189,6 @@ Thermal resistant:
         \caption{}
         \label{fig:t1000}
     \end{subfigure}
-%    \caption{Comparison of Moose result to Fourier series approximation for 4 separate time steps.}\label{fig:T}
 \end{figure}
 \pagebreak
 %------------------------------
@@ -143,7 +207,6 @@ Thermal resistant:
         \caption{}
         \label{fig:t1000}
     \end{subfigure}
-%    \caption{Comparison of Moose result to Fourier series approximation for 4 separate time steps.}\label{fig:T}
 \end{figure}
 %------------------------------
 \end{itemize}
